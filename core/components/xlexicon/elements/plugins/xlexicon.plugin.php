@@ -35,7 +35,16 @@ switch ($modx->event->name) {
   
   case 'OnDocFormSave':
     //cleanup to be out of jsondecode error on parsing updateresource response
-    $resource->set('xlexicon','');
+    $resource = null;
+    foreach($scriptProperties as & $o){
+        if(is_object($o) && ($o instanceof modResource)){
+            $resource = & $o;
+            break;
+        }
+    }
+    if($resource){
+        $resource->set('xlexicon','');
+    }
   break;
     
 	case 'OnHandleRequest':
